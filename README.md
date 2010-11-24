@@ -1,5 +1,4 @@
-INSTALL
-=======================
+### INSTALL
 
 1. For example create model "MySubscription"
 2. Add include line:
@@ -46,7 +45,7 @@ INSTALL
     session[:first_data][:answer_path]   = done_my_subscription_path
     redirect_to checkout_first_data_path
 
-5. Configure your environments/*
+5. Configure your environments
 
     # For development.rb and test.rb
     #---------------------
@@ -58,3 +57,14 @@ INSTALL
       ActiveMerchant::Billing::Base.mode = :test
     end
 
+### TESTING
+
+To test your session from your site to server and back we have test controller who will act as fake server. 
+To do this you need to set billing to `:debug` mode
+
+    config.after_initialize do
+      ActiveMerchant::Billing::Base.mode = :debug
+    end
+
+And you need to run another rails server on port `3001` - this will act as FirstData server.
+Then you will be able to make fake payments.
