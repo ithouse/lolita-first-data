@@ -39,12 +39,14 @@ class FirstDataCertGenerator
     puts "\nNow update your environment configuration files with constants:"
     puts "\n\tFIRSTDATA_PEM = File.join(RAILS_ROOT, \"config\", \"first_data\", \"#{@cert_type}\", \"cert.pem\")"
     puts "\tFIRSTDATA_PASS = '<Enter PEM pass phrase>'"
-    puts "\nAnd change mode to :#{@cert_type}"
-    puts %^
-      config.after_initialize do
-        ActiveMerchant::Billing::Base.mode = :#{@cert_type}
-      end    
-    ^
+    if @cert_type == 'test'
+      puts "\nAnd change mode to :test"
+      puts %^
+    config.after_initialize do
+      ActiveMerchant::Billing::Base.mode = :test
+    end
+      ^
+    end
   end
   
   private
