@@ -60,11 +60,11 @@
 == TESTING
 
 To test your session from your site to server and back we have test controller who will act as fake server. 
-To do this you need to set billing to `:debug` mode
+    To do this you need to set billing to +:debug+ mode
 
     config.after_initialize do
       ActiveMerchant::Billing::Base.mode = :debug
     end
 
-And you need to run another rails server on port `3001` - this will act as FirstData server.
+    And you need to run another rails server on port +3001+ - this will act as FirstData server.
 Then you will be able to make fake payments.
