@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'spec/rake/spectask'
 require 'fileutils'
+require 'rake'
 
 desc 'Default: run tests.'
 task :default => :spec
