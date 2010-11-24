@@ -16,7 +16,7 @@ class FirstDataCertGenerator
       1. test
       2. production^) == '2' ? 'production' : 'test'
     @destination = File.join(RAILS_ROOT, "config", "first_data", @cert_type)
-    FileUtils.mkdir_p(destination) unless File.exists?(@destination)
+    FileUtils.mkdir_p(@destination) unless File.exists?(@destination)
     @domain = prompt("Your domain:")
     @merchantId = prompt("Your merchantId:")
   end
