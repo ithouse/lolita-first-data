@@ -1,0 +1,6 @@
+en-US:
+  fd:
+    unknown_error: Unknown error
+    no_trans_id: No transaction ID
+    wrong_request: Wrong request
+    purchase_failed: "Failed to create a payment, please try again."

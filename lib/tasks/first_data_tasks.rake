@@ -44,8 +44,8 @@ class FirstDataCertGenerator
     `openssl pkcs12 -export -in #{@destination}/#{@merchantId}.pem -out #{@destination}/#{@merchantId}_keystore.p12 -certfile #{@destination}/ECOMM.pem -inkey #{@destination}/#{@merchantId}_key.pem`
     `openssl pkcs12 -in #{@destination}/#{@merchantId}_keystore.p12 > #{@destination}/cert.pem`
     puts "\nNow update your environment configuration files with constants:"
-    puts "\n\tFIRSTDATA_PEM = File.join(RAILS_ROOT, \"config\", \"first_data\", \"#{@cert_type}\", \"cert.pem\")"
-    puts "\tFIRSTDATA_PASS = '<Enter PEM pass phrase>'"
+    puts "\n\tFD_PEM = File.join(RAILS_ROOT, \"config\", \"first_data\", \"#{@cert_type}\", \"cert.pem\")"
+    puts "\tFD_PASS = '<Enter PEM pass phrase>'"
     if @cert_type == 'test'
       puts "\nAnd change mode to :test"
       puts %^

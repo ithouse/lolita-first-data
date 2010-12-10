@@ -8,9 +8,8 @@ module Lolita::FirstData
 
     def set_gateway
       @gateway ||= ActiveMerchant::Billing::FirstDataGateway.new(
-        :pem => File.open(FIRSTDATA_PEM).read,
-        :pem_password => FIRSTDATA_PASS,
-        :locale => I18n.locale,
+        :pem => File.open(FD_PEM).read,
+        :pem_password => FD_PASS,
         :payment => set_active_payment
       )
     end
@@ -21,5 +20,6 @@ module Lolita::FirstData
         @payment ||= session[:first_data][:billing_class].constantize.find(session[:first_data][:billing_id])
       end
     end
+    
   end
 end

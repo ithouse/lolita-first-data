@@ -106,7 +106,7 @@ module Lolita::FirstData
         if @@fake_result
           "RESULT: OK RESULT_CODE: 000"
         else
-          "RESULT: FAILED RESULT_CODE: #{ActiveMerchant::Billing::FirstDataGateway::RESPONSE_CODES.keys.collect{|k| k unless k == "000"}.choice}"
+          "RESULT: FAILED RESULT_CODE: 123"
         end
       else
         "RESULT: OK RESULT_CODE: 000"

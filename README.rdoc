@@ -5,7 +5,7 @@
 
     include Lolita::Billing:FirstData
 
-3. Add special methods to your "MySubscription" and modify them to suit your needs:
+3. Add these special methods to your "MySubscription" and modify them to suit your needs:
 
     # Methods for #Lolita::Billing:FirstData
     #---------------------------------------
@@ -25,7 +25,19 @@
     def currency
       "840"
     end
-
+    
+    # triggered when FirstData transaction is saved
+    def fd_trx_saved trx
+      case trx.status
+      when :processing
+        # update_attribute(:status, 'processing')
+      when :completed
+        # update_attribute(:status, 'completed')
+      when :rejected
+        # update_attribute(:status, 'rejected')
+      end
+    end
+    
     # optional
     # this is called when FirstData merchant is taking some actions
     # there you can save the log message other than the default log file
@@ -50,8 +62,8 @@
     # For development.rb and test.rb
     #---------------------
 
-    FIRST_DATA_PEM   = "#{RAILS_ROOT}/config/first-data/test.pem"
-    FIRST_DATA_PASS  = "qwerty"
+    FD_PEM   = "#{RAILS_ROOT}/config/first-data/test.pem"
+    FD_PASS  = "qwerty"
 
     config.after_initialize do
       ActiveMerchant::Billing::Base.mode = :test

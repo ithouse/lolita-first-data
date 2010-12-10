@@ -8,7 +8,7 @@ module Lolita
           # returns true if exists transaction with status 'completed'
           # and updates status if needed
           def paid?
-            self.fd_transactions.count(:conditions => {:status => 'completed'}) >= 1
+            self.fd_transactions.count(:conditions => {:status => 'completed', :transaction_code => '000'}) >= 1
           end
         end
       end
@@ -19,9 +19,8 @@ module Lolita
         # Like "ruby script/runner <YourBillingModel>.close_business_day"
         def close_business_day
           gw = ActiveMerchant::Billing::FirstDataGateway.new(
-            :pem => File.open(FIRST_DATA_PEM).read,
-            :pem_password => FIRST_DATA_PASS,
-            :locale => I18n.locale
+            :pem => File.open(FD_PEM).read,
+            :pem_password => FD_PASS
           )
           rs =gw.close_day
           rs.success? or raise("FirstData close day: #{rs.message}")
