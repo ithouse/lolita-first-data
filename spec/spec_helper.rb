@@ -34,7 +34,7 @@ ActiveRecord::Schema.define do
 
   create_table :reservations do |t|
     t.integer :full_price
-    t.enum :status, :limit => [:booking, :payment, :completed, :rejected], :default => :booking
+    t.string :status
 
     t.timestamps
   end
@@ -62,6 +62,17 @@ class Reservation < ActiveRecord::Base
   # this is called when FirstData merchant is taking some actions
   # there you can save the log message other than the default log file
   def log severity, message
+  end
+  
+  def fd_trx_saved trx
+    case trx.status
+    when :processing
+      update_attribute(:status, 'payment')
+    when :completed
+      update_attribute(:status, 'completed')
+    when :rejected
+      update_attribute(:status, 'rejected')
+    end
   end
   #-----------------------
 end
