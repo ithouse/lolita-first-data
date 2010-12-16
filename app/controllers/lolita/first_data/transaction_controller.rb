@@ -50,7 +50,7 @@ module Lolita::FirstData
           send_bug(fdp_error, "Error saving FirstData Transaction")
           @gateway.log :error, fdp_error
         end
-        redirect_to "#{session[:first_data][:finish_path]}?merchant=fd&trans_id=#{params[:trans_id]}"
+        redirect_to "#{session[:first_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
       else
         render :text => "wrong transaction ID", :status => 400
       end
