@@ -12,7 +12,7 @@ module ActiveMerchant #:nodoc:
       self.display_name = 'FirstData'
       
       def initialize(options = {})
-        requires!(options, :pem, :pem_password, :payment)
+        requires!(options, :pem, :pem_password)
         @options = options
         @logger  = Logger.new("#{RAILS_ROOT}/log/first_data.log", 2, 1024**2)
         @logger.formatter = Lolita::FirstData::LogFormatter.new
