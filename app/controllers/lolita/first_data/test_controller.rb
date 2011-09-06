@@ -1,32 +1,10 @@
 module Lolita::FirstData
   class TestController < Lolita::FirstData::CommonController
     before_filter :render_nothing
-    
-    # you get there if you are in development environment and access "checkout" action, it's for testing server responses
-    def fake_server
-      @@return_host = request.env["HTTP_REFERER"].split('/')[2] if request.env["HTTP_REFERER"]
-      if params[:command]
-        server_handler
-      else
-        client_handler
-      end
-    end
-
-    # when "success" button pressed
-    def fake_success
-      @@fake_result = true
-      redirect_to answer_first_data_url(:host => @@return_host, :trans_id => session[:fake_server][:trans_id])
-    end
-
-    # when "failure" button pressed
-    def fake_failure
-      @@fake_result = false
-      redirect_to answer_first_data_url(:host => @@return_host, :trans_id => session[:fake_server][:trans_id])
-    end
 
     # renders nothing if not in development environment
     def render_nothing
-      render :nothing => true if RAILS_ENV == 'production'
+      render :nothing => true unless Rails.env == 'development'
     end
 
     #FIXME: refactor
@@ -96,31 +74,5 @@ module Lolita::FirstData
       render :text => "WRONG REQUEST", :status => 400
     end
 
-    private
-
-    # acts as server handler
-    def server_handler
-      data = if params[:command] == 'v'
-        "TRANSACTION_ID: #{Array.new(28) { (('a'..'z').to_a + (0..9).to_a).choice }.join}"
-      elsif params[:command] == 'c'
-        if @@fake_result
-          "RESULT: OK RESULT_CODE: 000"
-        else
-          "RESULT: FAILED RESULT_CODE: 123"
-        end
-      else
-        "RESULT: OK RESULT_CODE: 000"
-      end
-      render :text => data
-    end
-    
-    # acts as client handler
-    def client_handler
-      if trans_id = params["/ecomm/ClientHandler?trans_id"]
-        session[:fake_server] ||= {}
-        session[:fake_server][:trans_id] = trans_id
-        render :layout => false
-      end
-    end
   end
 end

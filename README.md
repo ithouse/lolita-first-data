@@ -1,11 +1,13 @@
-== INSTALL
+### INSTALL
 
-1. For example create model "MySubscription"
-2. Add include line:
+- `gem install lolita-first-data`
+- run `rails g lolita_first_data:install`
+- For example create model **Payment**
+- Add include line:
 
-    include Lolita::Billing:FirstData
+   include Lolita::Billing:FirstData
 
-3. Add these special methods to your "MySubscription" and modify them to suit your needs:
+Add these special methods to your "Payment" and modify them to suit your needs:
 
     # Methods for #Lolita::Billing:FirstData
     #---------------------------------------
@@ -46,30 +48,30 @@
     end
     #---------------------------------------
 
-4. When you are ready to pay your payment controller action should end like this:
+When you are ready to pay your payment controller action should end like this:
 
-    @my_subscription = MySubscription....
+    @payment = Payment....
     ....
     ....
     session[:first_data] ||= {}
-    session[:first_data][:billing_class] = @my_subscription.class.to_s
-    session[:first_data][:biling_id]     = @my_subscription.id
-    session[:first_data][:answer_path]   = done_my_subscription_path
+    session[:first_data][:billing_class] = @payment.class.to_s
+    session[:first_data][:billing_id]    = @payment.id
+    session[:first_data][:finish_path]   = done_payments_path
     redirect_to checkout_first_data_path
 
-5. Configure your environments
+Configure your environments
 
     # For development.rb and test.rb
     #---------------------
 
-    FD_PEM   = "#{RAILS_ROOT}/config/first-data/test.pem"
+    FD_PEM   = "#{Rails.root}/config/first-data/test.pem"
     FD_PASS  = "qwerty"
 
     config.after_initialize do
       ActiveMerchant::Billing::Base.mode = :test
     end
 
-== TESTING
+### TESTING
 
 To test your session from your site to server and back we have test controller who will act as fake server. 
 To do this you need to set billing to +:debug+ mode

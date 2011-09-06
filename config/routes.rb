@@ -1,5 +1,5 @@
-ActionController::Routing::Routes.draw do |map|
-  map.checkout_first_data '/first_data/checkout', :controller => 'Lolita::FirstData::Transaction', :action => 'checkout'
-  map.answer_first_data   '/first_data/answer'  , :controller => 'Lolita::FirstData::Transaction', :action => 'answer'
-  map.connect '/first_data_test/:action', :controller => 'Lolita::FirstData::Test'
+Rails.application.routes.draw do
+  match '/first_data/checkout', :as => "checkout_first_data", :controller => 'Lolita::FirstData::Transaction', :action => 'checkout'
+  match '/first_data/answer', :as => "answer_first_data", :controller => 'Lolita::FirstData::Transaction', :action => 'answer'
+  match '/first_data_test/:action', :controller => 'Lolita::FirstData::Test'
 end

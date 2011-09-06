@@ -1,13 +1,20 @@
-# encoding: utf-8
 require 'rubygems'
-gem 'rails', '~>2.3'
-require 'i18n'
-require 'active_record'
-require 'spec'
-require 'faker'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
 
-# init first_data
-require File.dirname(__FILE__)+'/../init.rb'
+require 'active_record'
+require 'rspec'
+require 'logger'
+require 'ruby-debug'
+require 'lolita-first-data'
+# load transaction module
+require File.dirname(__FILE__)+'/../app/models/lolita/first_data/transaction.rb'
 
 ActiveRecord::Base.logger = Logger.new(File.open("#{File.dirname(__FILE__)}/database.log", 'w+'))
 ActiveRecord::Base.establish_connection({ :database => ":memory:", :adapter => 'sqlite3', :timeout => 500 })
@@ -77,7 +84,8 @@ class Reservation < ActiveRecord::Base
   #-----------------------
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
+  config.mock_with :rspec
   config.before(:each) do
     ActiveRecord::Base.connection.execute "DELETE from first_data_transactions"
     ActiveRecord::Base.connection.execute "DELETE from reservations"

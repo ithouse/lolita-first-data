@@ -1,7 +1,6 @@
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class FirstDataGateway < Gateway
-      DEBUG_DOMAIN= 'http://localhost:3001/first_data_test/fake_server/?'
       TEST_DOMAIN = 'https://secureshop-test.firstdata.lv'
       LIVE_DOMAIN = 'https://secureshop.firstdata.lv'
       
@@ -14,7 +13,7 @@ module ActiveMerchant #:nodoc:
       def initialize(options = {})
         requires!(options, :pem, :pem_password)
         @options = options
-        @logger  = Logger.new("#{RAILS_ROOT}/log/first_data.log", 2, 1024**2)
+        @logger  = Logger.new("#{Rails.root}/log/first_data.log", 2, 1024**2)
         @logger.formatter = Lolita::FirstData::LogFormatter.new
         super
       end  
@@ -79,7 +78,6 @@ module ActiveMerchant #:nodoc:
       def go_out
         raise I18n.t('fd.no_trans_id') unless @trans_id
         url = get_domain + "/ecomm/ClientHandler?trans_id=#{CGI.escape @trans_id}"
-        log :info, url
         url
       end
 
@@ -99,16 +97,12 @@ module ActiveMerchant #:nodoc:
         ActiveMerchant::Billing::Base.mode == :test
       end
 
-      def debug?
-        ActiveMerchant::Billing::Base.mode == :debug
-      end
-
       def get_domain
-        test? ? TEST_DOMAIN : (debug? ? DEBUG_DOMAIN : LIVE_DOMAIN)
+        test? ? TEST_DOMAIN : LIVE_DOMAIN
       end
       
-      def parse(body)
-        body.to_s.strip
+      def parse(rs)
+        rs.body.to_s.strip
       end     
 
       # Return Response object
@@ -136,16 +130,10 @@ module ActiveMerchant #:nodoc:
         end
       end
 
-      # this posts data to FirstData server or to local debug server
+      # this posts data to FirstData server
       def post url, data, headers = {}
         begin
-          unless debug?
             ssl_post(url, data, headers)
-          else
-            connection = Connection.new(url)
-            connection.logger = @logger
-            connection.request(:post, data, headers)
-          end
         rescue Exception => e
           log :error, "#{e.to_s}\n\n#{$@.join("\n")}"
           "ERROR POSTING DATA"

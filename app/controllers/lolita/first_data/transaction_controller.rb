@@ -3,8 +3,8 @@ module Lolita::FirstData
     before_filter :is_ssl_required
 
     # should exist
-    #   session[:first_data][:payment_class]
-    #   session[:first_data]:payment_id]
+    #   session[:first_data][:billing_class]
+    #   session[:first_data]:billing_id]
     #   Class should respond to these methods:
     # => :price - cents
     # => :currency - according to http://en.wikipedia.org/wiki/ISO_4217
@@ -41,13 +41,13 @@ module Lolita::FirstData
           if rs.success?
             begin
               @gateway.reverse(fdp.transaction_id,fdp.paymentable.price)            
-            rescue Exception => e
-              reverse_error = "#{e.to_s}\n\n#{$@.join("\n")}"
-              send_bug(reverse_error, "FirstData Error reversing money")
+            rescue Exception => reverse_exception
+              reverse_error = "#{reverse_exception.to_s}\n\n#{$@.join("\n")}"
+              ExceptionNotifier::Notifier.exception_notification(request.env, reverse_exception).deliver if defined?(ExceptionNotifier)
               @gateway.log :error, reverse_error
             end
           end
-          send_bug(fdp_error, "Error saving FirstData Transaction")
+          ExceptionNotifier::Notifier.exception_notification(request.env, e).deliver if defined?(ExceptionNotifier)
           @gateway.log :error, fdp_error
         end
         redirect_to "#{session[:first_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
@@ -60,7 +60,7 @@ module Lolita::FirstData
 
     # forces SSL in production mode if available
     def is_ssl_required
-      ssl_required(:answer, :checkout) if defined?(ssl_required) && (RAILS_ENV == 'production' || RAILS_ENV == 'staging')
+      ssl_required(:answer, :checkout) if defined?(ssl_required) && (Rails.env == 'production' || Rails.env == 'staging')
     end
   end
 end
