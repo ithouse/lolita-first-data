@@ -44,14 +44,25 @@ class FirstDataCertGenerator
     `openssl pkcs12 -export -in #{@destination}/#{@merchantId}.pem -out #{@destination}/#{@merchantId}_keystore.p12 -certfile #{@destination}/ECOMM.pem -inkey #{@destination}/#{@merchantId}_key.pem`
     `openssl pkcs12 -in #{@destination}/#{@merchantId}_keystore.p12 > #{@destination}/cert.pem`
     puts "\nNow update your environment configuration files with constants:"
-    puts "\n\tFD_PEM = File.join(Rails.root, \"config\", \"first-data\", \"#{@cert_type}\", \"cert.pem\")"
-    puts "\tFD_PASS = '<Enter PEM pass phrase>'"
+    puts "\nFD_PEM = File.join(Rails.root, \"config\", \"first-data\", \"#{@cert_type}\", \"cert.pem\")"
+    puts "FD_PASS = '<Enter PEM pass phrase>'"
     if @cert_type == 'test'
       puts "\nAnd change mode to :test"
       puts %^
     config.after_initialize do
       ActiveMerchant::Billing::Base.mode = :test
     end
+
+    IMPORTANT
+
+    After you have test certificate you should run all FirstData tests https://secureshop-test.firstdata.lv/report/common/testplan/test.jsp
+    To do sou you need to update your merchant information https://secureshop-test.firstdata.lv/report/merchantlist.do
+     - change IP to your current IP
+     - change returnOkUrl and returnFailUrl to http://localhost:3000/first_data_test/test
+     - save
+     
+    Now run server and start testing http://localhost:3000/first_data_test/test?nr=1   
+    In transaction details you specify all data from response and amount as 1.00 LVL.
       ^
     end
   end

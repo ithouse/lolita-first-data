@@ -52,6 +52,8 @@ Generate certificates by running:
 
     rake first_data:generate_certificate
 
+Generate certificates for both environments - test/production and specify correct merchantId.
+
 Use `Lolita::FirstData::TestController` to pass all tests by running server and executing:
 
     http://localhost:3000/first_data_test/test?nr=1
