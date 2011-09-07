@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ITHouse, Gatis Tomsons"]
-  s.date = "2011-09-05"
+  s.date = "2011-09-07"
   s.description = "FirstData Payment plugin for Lolita using ActiveMerchant"
   s.email = "gatis@ithouse.cc"
   s.extra_rdoc_files = [
@@ -17,24 +17,38 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
+    ".document",
+    ".rspec",
+    "Gemfile",
+    "Gemfile.lock",
+    "LICENSE.txt",
+    "README.md",
+    "Rakefile",
     "VERSION",
     "app/controllers/lolita/first_data/common_controller.rb",
     "app/controllers/lolita/first_data/test_controller.rb",
     "app/controllers/lolita/first_data/transaction_controller.rb",
     "app/models/lolita/first_data/transaction.rb",
-    "app/views/lolita/first_data/test/fake_server.html.erb",
     "config/locales/en-UK.yml",
     "config/locales/en-US.yml",
     "config/locales/en.yml",
     "config/locales/lv.yml",
     "config/routes.rb",
-    "lib/active_merchant/billing/first_data_gateway.rb",
-    "lib/first_data_billing.rb",
-    "lib/first_data_custom_logger.rb",
+    "lib/generators/lolita_first_data/install_generator.rb",
+    "lib/generators/lolita_first_data/templates/migration.rb",
+    "lib/lolita-first-data.rb",
+    "lib/lolita-first-data/billing.rb",
+    "lib/lolita-first-data/custom_logger.rb",
+    "lib/lolita-first-data/gateway.rb",
+    "lib/lolita-first-data/rails.rb",
     "lib/tasks/first_data_tasks.rake",
+    "lolita-first-data.gemspec",
+    "spec/cert.pem",
+    "spec/fabricators/reservation_fabricator.rb",
+    "spec/fabricators/transaction_fabricator.rb",
     "spec/first_data_spec.rb",
-    "spec/spec.opts",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "spec/support/rails.rb"
   ]
   s.homepage = "http://github.com/ithouse/lolita-first-data"
   s.licenses = ["MIT"]
@@ -46,24 +60,36 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<rails>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activemerchant>, ["~> 1.17.0"])
-      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<sqlite3>, ["~> 1.3.4"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.6.0"])
+      s.add_development_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<fabrication>, ["~> 1.1.0"])
     else
+      s.add_dependency(%q<rails>, [">= 3.0.0"])
       s.add_dependency(%q<activemerchant>, ["~> 1.17.0"])
-      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<sqlite3>, ["~> 1.3.4"])
+      s.add_dependency(%q<rspec>, ["~> 2.6.0"])
+      s.add_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<fabrication>, ["~> 1.1.0"])
     end
   else
+    s.add_dependency(%q<rails>, [">= 3.0.0"])
     s.add_dependency(%q<activemerchant>, ["~> 1.17.0"])
-    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<sqlite3>, ["~> 1.3.4"])
+    s.add_dependency(%q<rspec>, ["~> 2.6.0"])
+    s.add_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<fabrication>, ["~> 1.1.0"])
   end
 end
 
