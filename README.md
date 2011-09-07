@@ -1,13 +1,13 @@
 ### INSTALL
 
 - `gem install lolita-first-data`
-- run `rails g lolita_first_data:install`
-- For example create model **Payment**
-- Add include line:
+- `rails g lolita_first_data:install`
 
-   include Lolita::Billing:FirstData
+### SETUP
 
-Add these special methods to your "Payment" and modify them to suit your needs:
+For example create model *Payment* and then add these special methods and modify them to suit your needs:
+    
+    include Lolita::Billing:FirstData
 
     # Methods for #Lolita::Billing:FirstData
     #---------------------------------------
@@ -31,11 +31,11 @@ Add these special methods to your "Payment" and modify them to suit your needs:
     # triggered when FirstData transaction is saved
     def fd_trx_saved trx
       case trx.status
-      when :processing
+      when 'processing'
         # update_attribute(:status, 'processing')
-      when :completed
+      when 'completed'
         # update_attribute(:status, 'completed')
-      when :rejected
+      when 'rejected'
         # update_attribute(:status, 'rejected')
       end
     end
@@ -48,16 +48,16 @@ Add these special methods to your "Payment" and modify them to suit your needs:
     end
     #---------------------------------------
 
-When you are ready to pay your payment controller action should end like this:
+Generate certificates by running:
 
-    @payment = Payment....
-    ....
-    ....
-    session[:first_data] ||= {}
-    session[:first_data][:billing_class] = @payment.class.to_s
-    session[:first_data][:billing_id]    = @payment.id
-    session[:first_data][:finish_path]   = done_payments_path
-    redirect_to checkout_first_data_path
+    rake first_data:generate_certificate
+
+Use `Lolita::FirstData::TestController` to pass all tests by running server and executing:
+
+    http://localhost:3000/first_data_test/test?nr=1
+    http://localhost:3000/first_data_test/test?nr=2
+    http://localhost:3000/first_data_test/test?nr=3
+    ...
 
 Configure your environments
 
@@ -71,14 +71,17 @@ Configure your environments
       ActiveMerchant::Billing::Base.mode = :test
     end
 
-### TESTING
+When you are ready to pay your payment controller action should end like this:
 
-To test your session from your site to server and back we have test controller who will act as fake server. 
-To do this you need to set billing to +:debug+ mode
+    @payment = Payment....
+    ....
+    ....
+    session[:first_data] ||= {}
+    session[:first_data][:billing_class] = @payment.class.to_s
+    session[:first_data][:billing_id]    = @payment.id
+    session[:first_data][:finish_path]   = done_payments_path
+    redirect_to checkout_first_data_path
 
-    config.after_initialize do
-      ActiveMerchant::Billing::Base.mode = :debug
-    end
+### TESTS
 
-And you need to run another rails server on port +3001+ - this will act as FirstData server.
-Then you will be able to make fake payments.
+Get source and run `rspec spec`

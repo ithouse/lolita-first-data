@@ -13,7 +13,7 @@ module Lolita
 
           def fd_error_message
             if !fd_transactions.empty? && fd_transactions.last.transaction_code
-              I18n.t("fd.code._#{fd_transactions.last.transaction_code}", :default => I18n.t('fd.unknown_error'))
+              I18n.t("fd.response.code_#{fd_transactions.last.transaction_code}", :default => I18n.t('fd.unknown_error'))
             end
           end
         end

@@ -11,9 +11,9 @@ module Lolita::FirstData
     def ip=(x)
       self[:ip] = IPAddr.new(x).to_i
     end
-    
+
     def process_answer rs, gateway, request
-      self.status = (rs.success?) ? :completed : :rejected
+      self.status = (rs.success?) ? 'completed' : 'rejected'
       self.transaction_code = rs.params['RESULT_CODE']
       begin
         self.save!
@@ -38,7 +38,7 @@ module Lolita::FirstData
     def self.add payment, request, rs
       Lolita::FirstData::Transaction.create!(
         :transaction_id => rs.params['TRANSACTION_ID'],
-        :status => :processing,
+        :status => 'processing',
         :paymentable_id => payment.id,
         :paymentable_type => payment.class.to_s,
         :ip => request.remote_ip

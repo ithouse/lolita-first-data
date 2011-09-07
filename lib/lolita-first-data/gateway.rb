@@ -133,7 +133,7 @@ module ActiveMerchant #:nodoc:
       # this posts data to FirstData server
       def post url, data, headers = {}
         begin
-            ssl_post(url, data, headers).body
+            ssl_post(url, data, headers)
         rescue Exception => e
           log :error, "#{e.to_s}\n\n#{$@.join("\n")}"
           "ERROR POSTING DATA"

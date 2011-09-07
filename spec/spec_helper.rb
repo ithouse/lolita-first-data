@@ -10,11 +10,15 @@ end
 
 require 'active_record'
 require 'rspec'
+require 'webmock/rspec'
 require 'fabrication'
 require 'logger'
 require 'ruby-debug'
 require 'lolita-first-data'
 require 'support/rails'
+
+FD_PEM = File.dirname(__FILE__) + "/cert.pem"
+FD_PASS = "1234"
 
 # load transaction module
 require File.dirname(__FILE__)+'/../app/models/lolita/first_data/transaction.rb'
@@ -23,6 +27,7 @@ ActiveRecord::Base.logger = Logger.new(File.open("#{File.dirname(__FILE__)}/data
 ActiveRecord::Base.establish_connection({ :database => ":memory:", :adapter => 'sqlite3', :timeout => 500 })
 
 # setup I18n
+I18n.load_path += Dir[File.join(File.dirname(__FILE__), '..', 'config', 'locales', '*.{rb,yml}').to_s]
 I18n.available_locales = [:en,:lv]
 I18n.default_locale = :en
 I18n.locale = :en
@@ -35,7 +40,7 @@ ActiveRecord::Schema.define do
   create_table :first_data_transactions do |t|
     t.string :transaction_id, :length => 28
     t.string :transaction_code, :length => 3
-    t.string :status, :default => :processing
+    t.string :status, :default => 'processing'
     t.references :paymentable, :polymorphic => true
     t.string :ip, :length => 10
 
@@ -76,11 +81,11 @@ class Reservation < ActiveRecord::Base
   
   def fd_trx_saved trx
     case trx.status
-    when :processing
+    when 'processing'
       update_attribute(:status, 'payment')
-    when :completed
+    when 'completed'
       update_attribute(:status, 'completed')
-    when :rejected
+    when 'rejected'
       update_attribute(:status, 'rejected')
     end
   end
