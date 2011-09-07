@@ -30,26 +30,9 @@ module Lolita::FirstData
     # there we land after returning from FirstData server
     # then we get transactions result and redirect to your given "finish" path
     def answer
-      if fdp = Lolita::FirstData::Transaction.find_by_transaction_id(params[:trans_id])
+      if trx = Lolita::FirstData::Transaction.where(transaction_id: params[:trans_id]).first
         rs = @gateway.get_trans_result(request.remote_ip,params[:trans_id])
-        fdp.status = (rs.success?) ? :completed : :rejected
-        fdp.transaction_code = rs.params['RESULT_CODE']
-        begin 
-          fdp.save!
-        rescue Exception => e
-          fdp_error = "#{e.to_s}\n\n#{$@.join("\n")}"
-          if rs.success?
-            begin
-              @gateway.reverse(fdp.transaction_id,fdp.paymentable.price)            
-            rescue Exception => reverse_exception
-              reverse_error = "#{reverse_exception.to_s}\n\n#{$@.join("\n")}"
-              ExceptionNotifier::Notifier.exception_notification(request.env, reverse_exception).deliver if defined?(ExceptionNotifier)
-              @gateway.log :error, reverse_error
-            end
-          end
-          ExceptionNotifier::Notifier.exception_notification(request.env, e).deliver if defined?(ExceptionNotifier)
-          @gateway.log :error, fdp_error
-        end
+        trx.process_answer(rs, @gateway, request)
         redirect_to "#{session[:first_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
       else
         render :text => "wrong transaction ID", :status => 400

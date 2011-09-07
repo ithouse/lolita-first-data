@@ -13,7 +13,7 @@ module ActiveMerchant #:nodoc:
       def initialize(options = {})
         requires!(options, :pem, :pem_password)
         @options = options
-        @logger  = Logger.new("#{Rails.root}/log/first_data.log", 2, 1024**2)
+        @logger  = Logger.new(defined?(Rails) ? "#{Rails.root}/log/first_data.log" : "/tmp/fd.log", 2, 1024**2)
         @logger.formatter = Lolita::FirstData::LogFormatter.new
         super
       end  
@@ -101,8 +101,8 @@ module ActiveMerchant #:nodoc:
         test? ? TEST_DOMAIN : LIVE_DOMAIN
       end
       
-      def parse(rs)
-        rs.body.to_s.strip
+      def parse(body)
+        body.to_s.strip
       end     
 
       # Return Response object
@@ -133,7 +133,7 @@ module ActiveMerchant #:nodoc:
       # this posts data to FirstData server
       def post url, data, headers = {}
         begin
-            ssl_post(url, data, headers)
+            ssl_post(url, data, headers).body
         rescue Exception => e
           log :error, "#{e.to_s}\n\n#{$@.join("\n")}"
           "ERROR POSTING DATA"

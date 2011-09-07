@@ -10,9 +10,12 @@ end
 
 require 'active_record'
 require 'rspec'
+require 'fabrication'
 require 'logger'
 require 'ruby-debug'
 require 'lolita-first-data'
+require 'support/rails'
+
 # load transaction module
 require File.dirname(__FILE__)+'/../app/models/lolita/first_data/transaction.rb'
 
@@ -20,7 +23,7 @@ ActiveRecord::Base.logger = Logger.new(File.open("#{File.dirname(__FILE__)}/data
 ActiveRecord::Base.establish_connection({ :database => ":memory:", :adapter => 'sqlite3', :timeout => 500 })
 
 # setup I18n
-I18n.available_locales = [:en,:lv,:ru,:fr]
+I18n.available_locales = [:en,:lv]
 I18n.default_locale = :en
 I18n.locale = :en
 

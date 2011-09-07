@@ -10,6 +10,12 @@ module Lolita
           def paid?
             self.fd_transactions.count(:conditions => {:status => 'completed', :transaction_code => '000'}) >= 1
           end
+
+          def fd_error_message
+            if !fd_transactions.empty? && fd_transactions.last.transaction_code
+              I18n.t("fd.code._#{fd_transactions.last.transaction_code}", :default => I18n.t('fd.unknown_error'))
+            end
+          end
         end
       end
 
