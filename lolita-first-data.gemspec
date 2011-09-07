@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "lolita-first-data"
-  s.version = "0.0.0"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ITHouse, Gatis Tomsons"]
@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
-    ".document",
     ".rspec",
     "Gemfile",
     "Gemfile.lock",
@@ -29,8 +28,6 @@ Gem::Specification.new do |s|
     "app/controllers/lolita/first_data/test_controller.rb",
     "app/controllers/lolita/first_data/transaction_controller.rb",
     "app/models/lolita/first_data/transaction.rb",
-    "config/locales/en-UK.yml",
-    "config/locales/en-US.yml",
     "config/locales/en.yml",
     "config/locales/lv.yml",
     "config/routes.rb",
@@ -64,6 +61,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activemerchant>, ["~> 1.17.0"])
       s.add_development_dependency(%q<sqlite3>, ["~> 1.3.4"])
       s.add_development_dependency(%q<rspec>, ["~> 2.6.0"])
+      s.add_development_dependency(%q<webmock>, ["~> 1.7.6"])
       s.add_development_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
@@ -74,6 +72,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<activemerchant>, ["~> 1.17.0"])
       s.add_dependency(%q<sqlite3>, ["~> 1.3.4"])
       s.add_dependency(%q<rspec>, ["~> 2.6.0"])
+      s.add_dependency(%q<webmock>, ["~> 1.7.6"])
       s.add_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
@@ -85,6 +84,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<activemerchant>, ["~> 1.17.0"])
     s.add_dependency(%q<sqlite3>, ["~> 1.3.4"])
     s.add_dependency(%q<rspec>, ["~> 2.6.0"])
+    s.add_dependency(%q<webmock>, ["~> 1.7.6"])
     s.add_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
