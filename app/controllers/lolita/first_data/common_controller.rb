@@ -16,8 +16,8 @@ module Lolita::FirstData
 
     # returns current payment instance from session
     def set_active_payment
-      if session && session[:first_data] && params[:controller] == 'Lolita::FirstData::Transaction'
-        @payment ||= session[:first_data][:billing_class].constantize.find(session[:first_data][:billing_id])
+      if session && session[:payment_data] && params[:controller] == 'Lolita::FirstData::Transaction'
+        @payment ||= session[:payment_data][:billing_class].constantize.find(session[:payment_data][:billing_id])
       end
     end
     

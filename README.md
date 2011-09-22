@@ -8,6 +8,11 @@
 For example create model *Payment* and then add these special methods and modify them to suit your needs:
     
     include Lolita::Billing:FirstData
+    
+    # Model methods
+    def paid?
+      first_data_paid? || another_payment_method_paid?
+    end
 
     # Methods for #Lolita::Billing:FirstData
     #---------------------------------------
@@ -29,7 +34,7 @@ For example create model *Payment* and then add these special methods and modify
     end
     
     # triggered when FirstData transaction is saved
-    def fd_trx_saved trx
+    def payment_trx_saved trx
       case trx.status
       when 'processing'
         # update_attribute(:status, 'processing')
@@ -78,10 +83,10 @@ When you are ready to pay your payment controller action should end like this:
     @payment = Payment....
     ....
     ....
-    session[:first_data] ||= {}
-    session[:first_data][:billing_class] = @payment.class.to_s
-    session[:first_data][:billing_id]    = @payment.id
-    session[:first_data][:finish_path]   = done_payments_path
+    session[:payment_data] ||= {}
+    session[:payment_data][:billing_class] = @payment.class.to_s
+    session[:payment_data][:billing_id]    = @payment.id
+    session[:payment_data][:finish_path]   = done_payments_path
     redirect_to checkout_first_data_path
 
 ### TESTS

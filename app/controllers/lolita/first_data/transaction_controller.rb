@@ -3,8 +3,8 @@ module Lolita::FirstData
     before_filter :is_ssl_required
 
     # should exist
-    #   session[:first_data][:billing_class]
-    #   session[:first_data]:billing_id]
+    #   session[:payment_data][:billing_class]
+    #   session[:payment_data]:billing_id]
     #   Class should respond to these methods:
     # => :price - cents
     # => :currency - according to http://en.wikipedia.org/wiki/ISO_4217
@@ -33,7 +33,7 @@ module Lolita::FirstData
       if trx = Lolita::FirstData::Transaction.where(transaction_id: params[:trans_id]).first
         rs = @gateway.get_trans_result(request.remote_ip,params[:trans_id])
         trx.process_answer(rs, @gateway, request)
-        redirect_to "#{session[:first_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
+        redirect_to "#{session[:payment_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
       else
         render :text => "wrong transaction ID", :status => 400
       end

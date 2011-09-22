@@ -79,7 +79,7 @@ class Reservation < ActiveRecord::Base
   def log severity, message
   end
   
-  def fd_trx_saved trx
+  def payment_trx_saved trx
     case trx.status
     when 'processing'
       update_attribute(:status, 'payment')

@@ -7,8 +7,8 @@ module Lolita
         base.class_eval do
           # returns true if exists transaction with status 'completed'
           # and updates status if needed
-          def paid?
-            self.fd_transactions.count(:conditions => {:status => 'completed', :transaction_code => '000'}) >= 1
+          def first_data_paid?
+            return true if self.fd_transactions.count(:conditions => {:status => 'completed', :transaction_code => '000'}) >= 1
           end
 
           def fd_error_message
