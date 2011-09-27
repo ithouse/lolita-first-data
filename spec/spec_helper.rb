@@ -58,6 +58,10 @@ end
 class Reservation < ActiveRecord::Base
   include Lolita::FirstData::Billing
   
+  def paid?
+    first_data_paid?
+  end
+
   # Methods for FirstData
   #-----------------------
   def price
