@@ -33,7 +33,18 @@ module Lolita::FirstData
       if trx = Lolita::FirstData::Transaction.where(transaction_id: params[:trans_id]).first
         rs = @gateway.get_trans_result(request.remote_ip,params[:trans_id])
         trx.process_answer(rs, @gateway, request)
-        redirect_to "#{session[:payment_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
+        if session[:payment_data] && session[:payment_data][:finish_path]
+          redirect_to "#{session[:payment_data][:finish_path]}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
+          return
+        end
+        # session data lost
+        if trx.paymentable.respond_to?('finish_payments_path')
+          session[:payment_data] ||= {}
+          session[:payment_data][:billing_class] = trx.paymentable.class.to_s
+          session[:payment_data][:billing_id]    = trx.paymentable.id
+          redirect_to "#{trx.paymentable.finish_payments_path}?merchant=fd&trans_id=#{CGI::escape(params[:trans_id])}"
+          return
+        end
       else
         render :text => "wrong transaction ID", :status => 400
       end
