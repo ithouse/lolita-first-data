@@ -86,11 +86,11 @@ class Reservation < ActiveRecord::Base
   def payment_trx_saved trx
     case trx.status
     when 'processing'
-      update_attribute(:status, 'payment')
+      update_column(:status, 'payment')
     when 'completed'
-      update_attribute(:status, 'completed')
+      update_column(:status, 'completed')
     when 'rejected'
-      update_attribute(:status, 'rejected')
+      update_column(:status, 'rejected')
     end
   end
   #-----------------------

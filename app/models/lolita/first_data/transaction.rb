@@ -1,9 +1,10 @@
 module Lolita::FirstData
   class Transaction < ActiveRecord::Base
-    set_table_name :first_data_transactions
+    self.table_name = 'first_data_transactions'
+
     belongs_to :paymentable, :polymorphic => true
     after_save :touch_paymentable
-    
+
     def ip
       IPAddr.new(self[:ip], Socket::AF_INET).to_s
     end
@@ -21,7 +22,7 @@ module Lolita::FirstData
         fdp_error = "#{e.to_s}\n\n#{$@.join("\n")}"
         if rs.success?
           begin
-            gateway.reverse(fdp.transaction_id,fdp.paymentable.price)            
+            gateway.reverse(fdp.transaction_id,fdp.paymentable.price)
           rescue Exception => reverse_exception
             reverse_error = "#{reverse_exception.to_s}\n\n#{$@.join("\n")}"
             ExceptionNotifier::Notifier.exception_notification(request.env, reverse_exception).deliver if defined?(ExceptionNotifier)

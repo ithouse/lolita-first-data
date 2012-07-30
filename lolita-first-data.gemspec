@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "lolita-first-data"
-  s.version = "1.0.0"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ITHouse, Gatis Tomsons"]
-  s.date = "2011-09-07"
+  s.date = "2012-07-30"
   s.description = "FirstData Payment plugin for Lolita using ActiveMerchant"
   s.email = "gatis@ithouse.cc"
   s.extra_rdoc_files = [
@@ -50,7 +50,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/ithouse/lolita-first-data"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.17"
   s.summary = "FirstData Payment plugin for Lolita"
 
   if s.respond_to? :specification_version then
@@ -58,37 +58,31 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rails>, [">= 3.0.0"])
-      s.add_runtime_dependency(%q<activemerchant>, ["~> 1.17.0"])
+      s.add_runtime_dependency(%q<activemerchant>, [">= 1.26"])
       s.add_development_dependency(%q<sqlite3>, ["~> 1.3.4"])
       s.add_development_dependency(%q<rspec>, ["~> 2.6.0"])
       s.add_development_dependency(%q<webmock>, ["~> 1.7.6"])
-      s.add_development_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_development_dependency(%q<debugger>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<fabrication>, ["~> 1.1.0"])
     else
       s.add_dependency(%q<rails>, [">= 3.0.0"])
-      s.add_dependency(%q<activemerchant>, ["~> 1.17.0"])
+      s.add_dependency(%q<activemerchant>, [">= 1.26"])
       s.add_dependency(%q<sqlite3>, ["~> 1.3.4"])
       s.add_dependency(%q<rspec>, ["~> 2.6.0"])
       s.add_dependency(%q<webmock>, ["~> 1.7.6"])
-      s.add_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_dependency(%q<debugger>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
-      s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<fabrication>, ["~> 1.1.0"])
     end
   else
     s.add_dependency(%q<rails>, [">= 3.0.0"])
-    s.add_dependency(%q<activemerchant>, ["~> 1.17.0"])
+    s.add_dependency(%q<activemerchant>, [">= 1.26"])
     s.add_dependency(%q<sqlite3>, ["~> 1.3.4"])
     s.add_dependency(%q<rspec>, ["~> 2.6.0"])
     s.add_dependency(%q<webmock>, ["~> 1.7.6"])
-    s.add_dependency(%q<ruby-debug19>, ["~> 0.11.6"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+    s.add_dependency(%q<debugger>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
-    s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<fabrication>, ["~> 1.1.0"])
   end
 end
