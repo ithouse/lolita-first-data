@@ -5,7 +5,7 @@ For Rails 2.x:
 - `gem install lolita-first-data`
 - `rails g lolita_first_data:install`
 
-For Rails 3.x add to your gemfile Gemfile:
+For Rails 3.x add to your Gemfile:
 
 - `gem 'lolita-first-data'`
 
