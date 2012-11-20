@@ -11,6 +11,31 @@ For Rails 3.x add to your Gemfile:
 
 ### SETUP
 
+Generate certificates by running:
+
+    rake first_data:generate_certificate
+
+Generate certificates for both environments - test/production and specify correct merchantId.
+
+Use `Lolita::FirstData::TestController` to pass all tests by running server and executing:
+
+    http://localhost:3000/first_data_test/test?nr=1
+    http://localhost:3000/first_data_test/test?nr=2
+    http://localhost:3000/first_data_test/test?nr=3
+    ...
+
+Configure your environments
+
+    # For development.rb and test.rb
+    #---------------------
+
+    FD_PEM   = "#{Rails.root}/config/first-data/test.pem"
+    FD_PASS  = "qwerty"
+
+    config.after_initialize do
+      ActiveMerchant::Billing::Base.mode = :test
+    end
+
 For example create model *Payment* and then add these special methods and modify them to suit your needs:
     
     include Lolita::Billing:FirstData
@@ -58,31 +83,6 @@ For example create model *Payment* and then add these special methods and modify
       #self.logs.create(:severity => severity, :message => message)
     end
     #---------------------------------------
-
-Generate certificates by running:
-
-    rake first_data:generate_certificate
-
-Generate certificates for both environments - test/production and specify correct merchantId.
-
-Use `Lolita::FirstData::TestController` to pass all tests by running server and executing:
-
-    http://localhost:3000/first_data_test/test?nr=1
-    http://localhost:3000/first_data_test/test?nr=2
-    http://localhost:3000/first_data_test/test?nr=3
-    ...
-
-Configure your environments
-
-    # For development.rb and test.rb
-    #---------------------
-
-    FD_PEM   = "#{Rails.root}/config/first-data/test.pem"
-    FD_PASS  = "qwerty"
-
-    config.after_initialize do
-      ActiveMerchant::Billing::Base.mode = :test
-    end
 
 When you are ready to pay your payment controller action should end like this:
 
