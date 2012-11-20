@@ -11,20 +11,13 @@ For Rails 3.x add to your Gemfile:
 
 ### SETUP
 
-Generate certificates by running:
+1) Generate certificates by running:
 
     rake first_data:generate_certificate
 
 Generate certificates for both environments - test/production and specify correct merchantId.
 
-Use `Lolita::FirstData::TestController` to pass all tests by running server and executing:
-
-    http://localhost:3000/first_data_test/test?nr=1
-    http://localhost:3000/first_data_test/test?nr=2
-    http://localhost:3000/first_data_test/test?nr=3
-    ...
-
-Configure your environments
+2) Configure your environments
 
     # For development.rb and test.rb
     #---------------------
@@ -35,6 +28,15 @@ Configure your environments
     config.after_initialize do
       ActiveMerchant::Billing::Base.mode = :test
     end
+
+3) Use `Lolita::FirstData::TestController` to pass all tests, visit url with nr= parameter according to test number in first data "Test Plan" section:
+
+    http://localhost:3000/first_data_test/test?nr=1
+    http://localhost:3000/first_data_test/test?nr=2
+    http://localhost:3000/first_data_test/test?nr=3
+    ...
+
+### EXAMPLE MODEL
 
 For example create model *Payment* and then add these special methods and modify them to suit your needs:
     
