@@ -7,7 +7,7 @@ For Rails 2.x:
 
 For Rails 3.x add to your gemfile Gemfile:
 
-- gem 'lolita-first-data'
+- `gem 'lolita-first-data'`
 
 ### SETUP
 
