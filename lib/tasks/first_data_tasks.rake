@@ -56,7 +56,7 @@ class FirstDataCertGenerator
     IMPORTANT
 
     After you have test certificate you should run all FirstData tests https://secureshop-test.firstdata.lv/report/common/testplan/test.jsp
-    To do sou you need to update your merchant information https://secureshop-test.firstdata.lv/report/merchantlist.do
+    To do so you need to update your merchant information https://secureshop-test.firstdata.lv/report/merchantlist.do
      - change IP to your current IP
      - change returnOkUrl and returnFailUrl to http://localhost:3000/first_data_test/test
      - save
