@@ -1,6 +1,7 @@
-require 'ipaddr'
-require 'active_merchant'
-require 'lolita-first-data/custom_logger'
-require 'lolita-first-data/billing'
-require 'lolita-first-data/gateway'
-require 'lolita-first-data/rails'
+require "ipaddr"
+require "active_merchant"
+require "lolita_first_data/engine"
+require "lolita_first_data/version"
+require "lolita_first_data/custom_logger"
+require "lolita_first_data/gateway"
+require "lolita_first_data/billing"

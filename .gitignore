@@ -1,17 +1,7 @@
-# rcov generated
-coverage
-
-# rdoc generated
-rdoc
-
-# yard generated
-doc
-.yardoc
-
-# bundler
-.bundle
-
-# jeweler generated
-pkg
-
-spec/*.log
+.bundle/
+log/*.log
+pkg/
+spec/dummy/db/*.sqlite3
+spec/dummy/log/*.log
+spec/dummy/tmp/
+spec/dummy/.sass-cache
