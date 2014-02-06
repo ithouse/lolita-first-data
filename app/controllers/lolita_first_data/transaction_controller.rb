@@ -13,7 +13,7 @@ module LolitaFirstData
       if @payment && !@payment.paid?
         rs = @gateway.purchase(@payment.price,@payment.currency,request.remote_ip,@payment.description)
         if rs.success?
-          Lolita::FirstData::Transaction.add(@payment, request, rs)
+          LolitaFirstData::Transaction.add(@payment, request, rs)
           redirect_to(@gateway.go_out)
         else
           if request.xhr? || !request.referer
@@ -30,7 +30,7 @@ module LolitaFirstData
     # there we land after returning from FirstData server
     # then we get transactions result and redirect to your given "finish" path
     def answer
-      if trx = Lolita::FirstData::Transaction.where(transaction_id: params[:trans_id]).first
+      if trx = LolitaFirstData::Transaction.where(transaction_id: params[:trans_id]).first
         rs = @gateway.get_trans_result(request.remote_ip,params[:trans_id])
         trx.process_answer(rs, @gateway, request)
         if session[:payment_data] && session[:payment_data][:finish_path]
@@ -54,7 +54,7 @@ module LolitaFirstData
 
     # forces SSL in production mode if available
     def is_ssl_required
-      ssl_required(:answer, :checkout) if defined?(ssl_required) && (Rails.env == 'production' || Rails.env == 'staging')
+      ssl_required(:answer, :checkout) if defined?(ssl_required) && (Rails.env.production? || Rails.env.staging?)
     end
   end
 end
