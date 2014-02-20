@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  match "/first_data/checkout" => "LolitaFirstData::Transaction#checkout", as: "checkout_first_data"
-  match "/first_data/answer" => "LolitaFirstData::Transaction#answer", as: "answer_first_data"
-  match "/first_data_test/:action" => "LolitaFirstData::Test"
+  get "/first_data/checkout" => "lolita_first_data/transactions#checkout", as: "checkout_first_data"
+  get "/first_data/answer" => "lolita_first_data/transactions#answer", as: "answer_first_data"
+  get "/first_data_test/:action" => "lolita_first_data/test"
 end

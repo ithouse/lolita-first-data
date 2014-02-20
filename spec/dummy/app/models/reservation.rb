@@ -1,12 +1,12 @@
 class Reservation < ActiveRecord::Base
   include LolitaFirstData::Billing
-  
+
+  # Methods for FirstData
+  #-----------------------
   def paid?
     first_data_paid?
   end
 
-  # Methods for FirstData
-  #-----------------------
   def price
     full_price
   end
@@ -21,12 +21,11 @@ class Reservation < ActiveRecord::Base
     "EUR"
   end
 
-  # this is called when FirstData merchant is taking some actions
   # there you can save the log message other than the default log file
-  def log severity, message
+  def first_data_log severity, message
   end
-  
-  def payment_trx_saved trx
+
+  def first_data_trx_saved trx
     case trx.status
     when "processing"
       update_column(:status, "payment")
@@ -35,6 +34,10 @@ class Reservation < ActiveRecord::Base
     when "rejected"
       update_column(:status, "rejected")
     end
+  end
+
+  def first_data_return_path
+    "/reservation/done"
   end
   #-----------------------
 end
