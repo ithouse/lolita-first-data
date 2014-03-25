@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "FirstData payment plugin using ActiveMerchant for use with Lolita CMS"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
-  
+
   s.add_runtime_dependency(%q<rails>, [">= 3.2.0"])
   s.add_runtime_dependency(%q<active_merchant_first_data>, ["~> 1.1.0"])
   s.add_development_dependency(%q<sqlite3>, ["~> 1.3"])
