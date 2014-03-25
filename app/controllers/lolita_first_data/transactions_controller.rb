@@ -6,9 +6,9 @@ module LolitaFirstData
 
     # We get transaction_id from FirstData and if ok, then we redirect to web interface
     def checkout
-      response = gateway.purchase(payment.price, 
-                                  currency: payment.currency, 
-                                  client_ip_addr: request.remote_ip, 
+      response = gateway.purchase(payment.price,
+                                  currency: payment.currency.to_s,
+                                  client_ip_addr: request.remote_ip,
                                   description: payment.description,
                                   language: payment.first_data_language)
       if response[:transaction_id]
