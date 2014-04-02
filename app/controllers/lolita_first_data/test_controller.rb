@@ -2,7 +2,7 @@ module LolitaFirstData
   class TestController < LolitaFirstData::ApplicationController
     before_filter -> { render(nothing: true) unless Rails.env.development? }
 
-    #FIXME: refactor
+    #FIXME: it doesn't work for new gateway
     # There are all 12 FirstData tests
     # you should pass them to get production certificates
     # use:  http://localhost:3000/first_data/test?nr=1
@@ -14,7 +14,7 @@ module LolitaFirstData
       when /^(1|2|5|6|7|8|10)$/
         session[:payment_data] = {}
         session[:payment_data][:test] = params[:nr]
-        rs = gateway.purchase(100,428,ip,'tests')
+        rs = gateway.purchase(100,428,client_ip_addr: ip)
         if rs.success?
           session[:payment_data][:trans_id] = rs.params['TRANSACTION_ID']
           return redirect_to(gateway.go_out)
@@ -66,7 +66,7 @@ module LolitaFirstData
         ^
         return render(:text => msg)
       end if session[:payment_data]
-      render :text => "WRONG REQUEST", :status => 400
+      render :text => "USAGE:  http://localhost:3000/first_data/test?nr=1", :status => 400
     end
 
   end
